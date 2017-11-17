@@ -52,7 +52,7 @@ public class MailClient
      */
     public void sendMailItem(String to, String subject, String message)
     {
-        MailItem item = new MailItem(user, to, subject, message);
+        MailItem item = new MailItem (user, to, subject, message);
         server.post(item);
     }
 }
