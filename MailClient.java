@@ -11,6 +11,10 @@ public class MailClient
     private MailServer server;
     // The user running this client.
     private String user;
+    // Recoge el número de mensajes enviados.
+    private int mensajeEnviado;
+    // Recoge el número de mensajes recibidos.
+    private int mensajeRecibido;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -19,6 +23,8 @@ public class MailClient
     {
         this.server = server;
         this.user = user;
+        mensajeEnviado = 0;
+        mensajeRecibido = 0;
     }
 
     /**
@@ -26,7 +32,11 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        return server.getNextMailItem(user);
+        MailItem devolverMensajeQueVaASerRecibido = server.getNextMailItem(user);
+        if(devolverMensajeQueVaASerRecibido != null) {
+            mensajeRecibido += 1;
+        }
+        return devolverMensajeQueVaASerRecibido;
     }
 
     /**
@@ -41,6 +51,7 @@ public class MailClient
         }
         else {
             item.print();
+            mensajeRecibido += 1;
         }
     }
 
@@ -54,5 +65,17 @@ public class MailClient
     {
         MailItem item = new MailItem (user, to, subject, message);
         server.post(item);
+        mensajeEnviado += 1;
+    }
+    
+    /**
+     * Muestra por pantalla el número total de mensajes recibidos,
+     * el número total de mensajes enviados y la dirección de correo
+     * de la persona que envió el email más largo con el número de
+     * caracteres.
+     */
+    public void numeroMensajeYCorreoMasLargo() {
+        System.out.println("El número de mensajes enviados es " + mensajeEnviado);
+        System.out.println("El número de mensajes recibidos es " + mensajeRecibido);
     }
 }
