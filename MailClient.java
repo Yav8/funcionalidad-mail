@@ -15,6 +15,12 @@ public class MailClient
     private int mensajeEnviado;
     // Recoge el número de mensajes recibidos.
     private int mensajeRecibido;
+    // Recoge el mensaje.
+    private String mensaje;
+    // Recoge el número de caracteres del mensaje más largo.
+    private int numeroDeCaracteresDelMensajeMasLargo;
+    // Recoge el nombre del usuario con el mensaje más largo.
+    private String usuarioConMensajeMasLargo;
 
     /**
      * Create a mail client run by user and attached to the given server.
@@ -25,6 +31,9 @@ public class MailClient
         this.user = user;
         mensajeEnviado = 0;
         mensajeRecibido = 0;
+        mensaje = "";
+        numeroDeCaracteresDelMensajeMasLargo = 0;
+        usuarioConMensajeMasLargo = "";
     }
 
     /**
@@ -34,7 +43,16 @@ public class MailClient
     {
         MailItem devolverMensajeQueVaASerRecibido = server.getNextMailItem(user);
         if(devolverMensajeQueVaASerRecibido != null) {
+            // Contabilizamos el número de mensajes recibidos.
             mensajeRecibido += 1;
+            // Introducimos el mensaje que recibe un usuario.
+            mensaje = devolverMensajeQueVaASerRecibido.getMessage();
+            // Obtención del nombre de usuario con el mensaje más largo y
+            // el mensaje que tiene el mayor número de caracteres a través de este condicional.
+            if(numeroDeCaracteresDelMensajeMasLargo < mensaje.length()) {
+                numeroDeCaracteresDelMensajeMasLargo = mensaje.length();
+                usuarioConMensajeMasLargo = devolverMensajeQueVaASerRecibido.getFrom();
+            }
         }
         return devolverMensajeQueVaASerRecibido;
     }
@@ -51,7 +69,16 @@ public class MailClient
         }
         else {
             item.print();
+            // Contabilizamos el número de mensajes recibidos.
             mensajeRecibido += 1;
+            // Introducimos el mensaje que recibe un usuario.
+            mensaje = item.getMessage();
+            // Obtención del nombre de usuario con el mensaje más largo y
+            // el mensaje que tiene el mayor número de caracteres a través de este condicional.
+            if(numeroDeCaracteresDelMensajeMasLargo < mensaje.length()) {
+                numeroDeCaracteresDelMensajeMasLargo = mensaje.length();
+                usuarioConMensajeMasLargo = item.getFrom();
+            }
         }
     }
 
@@ -65,9 +92,10 @@ public class MailClient
     {
         MailItem item = new MailItem (user, to, subject, message);
         server.post(item);
+        // Contabilizamos el número de mensajes enviados.
         mensajeEnviado += 1;
     }
-    
+
     /**
      * Muestra por pantalla el número total de mensajes recibidos,
      * el número total de mensajes enviados y la dirección de correo
@@ -77,5 +105,8 @@ public class MailClient
     public void numeroMensajeYCorreoMasLargo() {
         System.out.println("El número de mensajes enviados es " + mensajeEnviado);
         System.out.println("El número de mensajes recibidos es " + mensajeRecibido);
+        if(mensajeRecibido > 0) {
+            System.out.println("El correo recibido con el mensaje más largo es " + usuarioConMensajeMasLargo + " y tiene " + numeroDeCaracteresDelMensajeMasLargo + " caracteres");
+        }
     }
 }
