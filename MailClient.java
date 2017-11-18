@@ -106,7 +106,7 @@ public class MailClient
         System.out.println("El número de mensajes enviados es " + mensajeEnviado);
         System.out.println("El número de mensajes recibidos es " + mensajeRecibido);
         if(mensajeRecibido > 0) {
-            System.out.println("El correo recibido con el mensaje más largo es " + usuarioConMensajeMasLargo + " y tiene " + numeroDeCaracteresDelMensajeMasLargo + " caracteres");
+            System.out.println("El correo recibido con el mensaje más largo es de " + usuarioConMensajeMasLargo + " y tiene " + numeroDeCaracteresDelMensajeMasLargo + " caracteres");
         }
     }
 }
