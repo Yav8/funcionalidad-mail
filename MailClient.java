@@ -41,20 +41,20 @@ public class MailClient
      */
     public MailItem getNextMailItem()
     {
-        MailItem devolverMensajeQueVaASerRecibido = server.getNextMailItem(user);
-        if(devolverMensajeQueVaASerRecibido != null) {
+        MailItem item = server.getNextMailItem(user);
+        if(item != null) {
             // Contabilizamos el número de mensajes recibidos.
             mensajeRecibido += 1;
             // Introducimos el mensaje que recibe un usuario.
-            mensaje = devolverMensajeQueVaASerRecibido.getMessage();
-            // Obtención del nombre de usuario con el mensaje más largo y
-            // el mensaje que tiene el mayor número de caracteres a través de este condicional.
-            if(numeroDeCaracteresDelMensajeMasLargo < mensaje.length()) {
+            mensaje = item.getMessage();
+            // Obtención del mensaje que tiene el mayor número de caracteres.
+            // Obtención del nombre de usuario con el mensaje más largo.
+            if(numeroDeCaracteresDelMensajeMasLargo <= mensaje.length()) {
                 numeroDeCaracteresDelMensajeMasLargo = mensaje.length();
-                usuarioConMensajeMasLargo = devolverMensajeQueVaASerRecibido.getFrom();
+                usuarioConMensajeMasLargo = item.getFrom();
             }
         }
-        return devolverMensajeQueVaASerRecibido;
+        return item;
     }
 
     /**
@@ -73,9 +73,9 @@ public class MailClient
             mensajeRecibido += 1;
             // Introducimos el mensaje que recibe un usuario.
             mensaje = item.getMessage();
-            // Obtención del nombre de usuario con el mensaje más largo y
-            // el mensaje que tiene el mayor número de caracteres a través de este condicional.
-            if(numeroDeCaracteresDelMensajeMasLargo < mensaje.length()) {
+            // Obtención del mensaje que tiene el mayor número de caracteres.
+            // Obtención del nombre de usuario con el mensaje más largo.
+            if(numeroDeCaracteresDelMensajeMasLargo <= mensaje.length()) {
                 numeroDeCaracteresDelMensajeMasLargo = mensaje.length();
                 usuarioConMensajeMasLargo = item.getFrom();
             }
